@@ -1,29 +1,25 @@
-FROM centos:7
+FROM ubuntu:16.04
 
 LABEL maintainer "oatkrittin@gmail.com" 
 
-ENV HTSLIB_VERSION=1.9 \ 
+ENV HTSLIB_VERSION=1.9 \
   MINICONDA_PREFIX=/usr/local/share/gemini/anaconda \
   PATH=$PATH:/usr/local/bin:/usr/local/gemini/bin
 
 # Install Deps for conda & gemini
-RUN yum -y update && \
-  yum -y install \
+RUN apt-get update && \
+  apt-get -y install \
   wget \
-  gcc \
-  gcc-c++ \
-  zlib-devel \
+  python2.7 \
+  build-essential \
   bzip2 \
-  bzip2-devel \
   build-essential \ 
   zlib1g-dev \
   libbz2-dev \
   libcurl4-openssl-dev \
-  libssl-dev \
-  liblzma-dev \
+  libssl-dev liblzma-dev \
   && \
-  yum clean all && \
-  rm -rf /var/cache/yum/*
+  apt-get clean
 
 # Pre-installed Miniconda with bioconda, gemini(latest version only) deps then Repeat Normal Install once again.
 RUN wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh && \
@@ -41,7 +37,7 @@ RUN wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/
   && cd htslib-${HTSLIB_VERSION} \
   && ./configure \
   && make && make install \
-  && rm ../htslib-${HTSLIB_VERSION}.tar.bz2
+  && rm ../htslib-${HTSLIB_VERSION}.tar.bz2 
 
 # Expose mount point for pre-downloaded annotation dbs
 VOLUME [ "/vcfs", "/dbs", "/gemini_data" ]
