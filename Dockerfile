@@ -14,11 +14,13 @@ RUN yum -y update && \
   gcc-c++ \
   zlib-devel \
   bzip2 \
+  bzip2-devel \
   build-essential \ 
   zlib1g-dev \
   libbz2-dev \
   libcurl4-openssl-dev \
-  libssl-dev liblzma-dev \
+  libssl-dev \
+  liblzma-dev \
   && \
   yum clean all && \
   rm -rf /var/cache/yum/*
