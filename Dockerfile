@@ -2,8 +2,9 @@ FROM centos:7
 
 LABEL maintainer "oatkrittin@gmail.com" 
 
-ENV PATH=$PATH:/usr/local/bin:/usr/local/gemini/bin \
-  MINICONDA_PREFIX=/usr/local/share/gemini/anaconda
+ENV HTSLIB_VERSION=1.9 \ 
+  MINICONDA_PREFIX=/usr/local/share/gemini/anaconda \
+  PATH=$PATH:/usr/local/bin:/usr/local/gemini/bin
 
 # Install Deps for conda & gemini
 RUN yum -y update && \
@@ -13,6 +14,11 @@ RUN yum -y update && \
   gcc-c++ \
   zlib-devel \
   bzip2 \
+  build-essential \ 
+  zlib1g-dev \
+  libbz2-dev \
+  libcurl4-openssl-dev \
+  libssl-dev liblzma-dev \
   && \
   yum clean all && \
   rm -rf /var/cache/yum/*
@@ -26,6 +32,14 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh &
   python gemini_install.py /usr/local /usr/local/share/gemini --nodata && \
   rm -f gemini_install.py Miniconda2-latest-Linux-x86_64.sh && \
   ln -s /usr/local/share/gemini/gemini_data /gemini_data
+
+# Install htslib to get tabix, bgzip utils tools
+RUN wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 \
+  && tar -xjf htslib-${HTSLIB_VERSION}.tar.bz2 \
+  && cd htslib-${HTSLIB_VERSION} \
+  && ./configure \
+  && make && make install \
+  && rm ../htslib-${HTSLIB_VERSION}.tar.bz2
 
 # Expose mount point for pre-downloaded annotation dbs
 VOLUME [ "/vcfs", "/dbs", "/gemini_data" ]
