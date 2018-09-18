@@ -10,6 +10,7 @@ ENV HTSLIB_VERSION=1.9 \
 RUN apt-get update && \
   apt-get -y install \
   wget \
+  python \
   python2.7 \
   build-essential \
   bzip2 \
