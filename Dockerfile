@@ -21,7 +21,7 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh &
   ./Miniconda2-latest-Linux-x86_64.sh -b -p $MINICONDA_PREFIX && \
   /usr/local/share/gemini/anaconda/bin/conda install --yes -c conda-forge -c bioconda gemini && \
   wget https://raw.github.com/arq5x/gemini/master/gemini/scripts/gemini_install.py && \
-  rm -f gemini_install.py Miniconda2-latest-Linux-x86_64.sh
+  rm -f Miniconda2-latest-Linux-x86_64.sh
 
 VOLUME [ "/vcfs", "/dbs", "/usr/local/share/gemini/gemini_data" ]
 
