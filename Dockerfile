@@ -10,6 +10,7 @@ ENV HTSLIB_VERSION=1.9 \
 RUN apt-get update && \
   apt-get -y install \
   wget \
+  git \
   python \
   python2.7 \
   build-essential \
@@ -19,6 +20,7 @@ RUN apt-get update && \
   libbz2-dev \
   libcurl4-openssl-dev \
   libssl-dev liblzma-dev \
+  sqlite3 \
   && \
   apt-get clean
 
