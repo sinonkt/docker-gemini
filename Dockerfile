@@ -30,7 +30,7 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh &
   ./Miniconda2-latest-Linux-x86_64.sh -b -p $MINICONDA_PREFIX && \
   /usr/local/share/gemini/anaconda/bin/conda install --yes -c conda-forge -c bioconda gemini && \
   wget https://raw.github.com/arq5x/gemini/master/gemini/scripts/gemini_install.py && \
-  python gemini_install.py /usr/local /usr/local/share/gemini --nodata && \
+  python gemini_install.py /usr/local /usr/local/share/gemini --datadir / --nodata && \
   rm -f gemini_install.py Miniconda2-latest-Linux-x86_64.sh
 
 # Install htslib to get tabix, bgzip utils tools
@@ -42,4 +42,4 @@ RUN wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/
   && rm ../htslib-${HTSLIB_VERSION}.tar.bz2 
 
 # Expose mount point for pre-downloaded annotation dbs
-VOLUME [ "/vcfs", "/dbs", "/usr/local/share/gemini/gemini_data" ]
+VOLUME [ "/vcfs", "/dbs", "/gemini_data" ]
