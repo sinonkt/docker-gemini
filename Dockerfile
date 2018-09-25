@@ -3,8 +3,10 @@ FROM ubuntu:16.04
 LABEL maintainer "oatkrittin@gmail.com" 
 
 ENV HTSLIB_VERSION=1.9 \
-  MINICONDA_PREFIX=/usr/local/share/gemini/anaconda \
-  PATH=$PATH:/usr/local/bin:/usr/local/gemini/bin
+  TOOLS_DIR=/opt \
+  DATA_DIR=/ \
+  MINICONDA_PREFIX=/anaconda \
+  PATH=$PATH:/opt/bin:/opt/gemini/bin
 
 # Install Deps for conda & gemini
 RUN apt-get update && \
@@ -28,9 +30,9 @@ RUN apt-get update && \
 RUN wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh && \
   chmod u+x Miniconda2-latest-Linux-x86_64.sh && \
   ./Miniconda2-latest-Linux-x86_64.sh -b -p $MINICONDA_PREFIX && \
-  /usr/local/share/gemini/anaconda/bin/conda install --yes -c conda-forge -c bioconda gemini && \
+  /anaconda/bin/conda install --yes -c conda-forge -c bioconda gemini && \
   wget https://raw.github.com/arq5x/gemini/master/gemini/scripts/gemini_install.py && \
-  python gemini_install.py /usr/local /usr/local/share/gemini --datadir / --nodata && \
+  python gemini_install.py $TOOLS_DIR $DATA_DIR --nodata && \
   rm -f gemini_install.py Miniconda2-latest-Linux-x86_64.sh
 
 # Install htslib to get tabix, bgzip utils tools
