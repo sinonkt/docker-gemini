@@ -5,8 +5,8 @@ LABEL maintainer "oatkrittin@gmail.com"
 ENV HTSLIB_VERSION=1.9 \
   TOOLS_DIR=/opt \
   DATA_DIR=/ \
-  MINICONDA_PREFIX=/anaconda \
-  PATH=$PATH:/opt/bin:/opt/gemini/bin:${MINICONDA_PREFIX}/bin
+  MINICONDA_PREFIX=/anaconda
+ENV PATH=$PATH:/opt/bin:/opt/gemini/bin:${MINICONDA_PREFIX}/bin
 
 # Install Deps for conda & gemini
 RUN apt-get update && \
